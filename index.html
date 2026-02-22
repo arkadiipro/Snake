@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="main-container">
+   <div class="leftPage">
+     <canvas id="canvas" width="500" height="500"></canvas>
+   </div>
+   <div class="centrePage">
+     <button id="gameButton"" >Start game</button>
+     <div>
+      <p>Scores:</p>
+      <p id="scores">0</p>
+    </div>
+     <div class="keyboard-arrows">
+       <button class="key up" onclick = "direction = 'up'">↑</button>
+       <button class="key left" onclick = "direction = 'left'">←</button>
+       <button class="key down" onclick = "direction = 'down'">↓</button>
+       <button class="key right" onclick = "direction = 'right'">→</button>
+     </div>
+
+   </div>
+   <div class="rightPage">
+    <form class="radio-column">
+      <p>виберіть рівень швидкості</p>
+      <label>
+        <input type="radio" name="V" value="200"> 0.2 times per second
+      </label>
+      <label>
+        <input type="radio" name="V" value="300">  0.3 times per second
+      </label>
+      <label>
+        <input type="radio" name="V" value="500" checked> 0.5 times per second
+      </label>
+      <label>
+        <input type="radio" name="V" value="1000"> 1 times per second
+      </label>
+
+    </form>
+   </div>
+  </div>
+  <script src="script.js"></script>
+  <script src="jquery.js" ></script>
+  <!--jquery version 2.1.0-->
+</body> 
+</html>
