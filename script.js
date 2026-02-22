@@ -6,10 +6,11 @@ canvas.height = canvas_width_and_heght
 let blockSize = canvas_width_and_heght / 25
 let blockInWidth = canvas.width / blockSize;
 let blockInHeight = canvas.height / blockSize;
-
+let appleInGame = false
 let direction = "left"
 let gameIsStart = false;
 let intervalGameId = null;
+let scores = 0
 const button = document.getElementById("gameButton")
 function Block (x,y) {
   this.x = x
@@ -32,7 +33,37 @@ function Apple () {
   this.part = []
 }
 Apple.prototype.getXY = function () {
-  
+  if(appleInGame) { 
+    return;
+  } else {
+    appleInGame = true
+    this.part.push(new appleBlock(Math.floor(Math.random() * 25) * blockSize,Math.floor(Math.random() * 25) * blockSize))
+  }
+
+}
+Apple.prototype.checkCollision = function (snake) {
+  let head = snake.segment[0]; // Голова змійки
+  for (let h = 0; h < this.part.length; h++) {
+    if (head.x === this.part[h].x && head.y === this.part[h].y) {
+      scores++;
+      this.part.splice(h, 1);
+      appleInGame = false; // Дозволяємо створити нове яблуко
+      
+      // Щоб змійка росла, додаємо сегмент (копію хвоста)
+      let tail = snake.segment[snake.segment.length - 1];
+      snake.segment.push(new Block(tail.x, tail.y));
+    }
+  }
+};
+Apple.prototype.draw = function () {
+  for(let r = 0; r < this.part.length; r++) {
+    ctx.beginPath()
+    ctx.fillStyle = "green"
+    ctx.arc(this.part[r].x + blockSize / 2,this.part[r].y + blockSize / 2,blockSize / 2, 0, Math.PI * 2)
+    
+    ctx.fill()
+    ctx.fillStyle = "black"
+  }
 }
 Snake.prototype.draw = function () {
   ctx.fillStyle = "red"
@@ -107,19 +138,26 @@ function startGame () {
     gameIsStart = true
     let V = document.querySelector('input[name = "V" ]:checked')
     let snake = new Snake()
+    let apple = new Apple()
     intervalGameId = setInterval(() => {
       ctx.clearRect(0,0,canvas.width,canvas.height);
       snake.draw()
       snake.move()
       snake.checkCollision()
-
+      
+      apple.getXY()
+      apple.checkCollision(snake)
+      apple.draw()
+      $("#scores").text(scores)
     },V.value)
   } else {
     $("#gameButton").text("Start game")
     gameIsStart = false
+    appleInGame = false
     clearInterval(intervalGameId)
     direction = "left"
     ctx.clearRect(0,0,canvas.width,canvas.height)
+    scores = 0
   }
 }
 document.getElementById("gameButton").addEventListener("click",startGame)
