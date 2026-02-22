@@ -134,3 +134,41 @@ input[type="radio"] {
  #canvas {
   border:1px solid black;
  }
+/* 6. АДАПТИВНІСТЬ ДЛЯ МОБІЛОК */
+@media (max-width: 768px) {
+  body {
+    overflow: auto; /* Дозволяємо скрол на мобілці */
+  }
+
+  #main-container {
+    flex-direction: column; /* Колонки стають рядками */
+    height: auto;
+    width: 100%;
+  }
+
+  .leftPage, .rightPage, .centrePage {
+    flex: none;
+    width: 100%;
+    border: none;
+    padding: 20px;
+  }
+
+  .centrePage {
+    order: -1; /* Ставимо ігрове поле/кнопку наверх */
+    border-bottom: 1px solid #333;
+  }
+
+  .keyboard-arrows {
+    max-width: 300px; /* Робимо стрілки компактнішими для пальців */
+    margin: 20px auto;
+  }
+
+  .key {
+    height: 70px; /* Збільшуємо висоту кнопок, щоб легше було попадати пальцем */
+  }
+
+  #canvas {
+    max-width: 100%; /* Щоб канвас не вилазив за межі екрана */
+    height: auto;
+  }
+}
