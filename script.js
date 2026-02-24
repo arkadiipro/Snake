@@ -11,6 +11,18 @@ let direction = "left"
 let gameIsStart = false;
 let intervalGameId = null;
 let scores = 0
+let savedData = null
+let bScores = null
+window.onload = function () {
+  savedData = localStorage.getItem("scoresT");
+  if(savedData){
+      $("#bScores").text(Number(savedData));
+      bScores =  Number(savedData)
+  } else {
+      bScores = 0
+      localStorage.setItem("scoresT", bScores);
+  }
+}
 const button = document.getElementById("gameButton")
 function Block (x,y) {
   this.x = x
@@ -148,7 +160,14 @@ function startGame () {
       apple.getXY()
       apple.checkCollision(snake)
       apple.draw()
+      if (scores > bScores) {
+        savedData = scores
+        localStorage.setItem("scoresT", savedData);
+        bScores = savedData.toFixed(2)
+        $("#bScores").text(scores)
+        };
       $("#scores").text(scores)
+      
     },V.value)
   } else {
     $("#gameButton").text("Start game")
@@ -173,4 +192,7 @@ document.addEventListener("keydown", (event) => {
   } else {
 
   }
+})
+document.addEventListener("mousemove",(event) => {
+  
 })
